@@ -15,6 +15,7 @@
 		517A790920B84ADE00DBE8DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 517A790820B84ADE00DBE8DD /* main.m */; };
 		517A791320B84ADE00DBE8DD /* GCDTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 517A791220B84ADE00DBE8DD /* GCDTests.m */; };
 		517A791E20B84ADE00DBE8DD /* GCDUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 517A791D20B84ADE00DBE8DD /* GCDUITests.m */; };
+		517A792C20B84C8E00DBE8DD /* File.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 517A792B20B84C8E00DBE8DD /* File.rtf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		517A791920B84ADE00DBE8DD /* GCDUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GCDUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		517A791D20B84ADE00DBE8DD /* GCDUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCDUITests.m; sourceTree = "<group>"; };
 		517A791F20B84ADE00DBE8DD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		517A792B20B84C8E00DBE8DD /* File.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = File.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				517A790420B84ADE00DBE8DD /* LaunchScreen.storyboard */,
 				517A790720B84ADE00DBE8DD /* Info.plist */,
 				517A790820B84ADE00DBE8DD /* main.m */,
+				517A792B20B84C8E00DBE8DD /* File.rtf */,
 			);
 			path = GCD;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			files = (
 				517A790620B84ADE00DBE8DD /* LaunchScreen.storyboard in Resources */,
 				517A790320B84ADE00DBE8DD /* Assets.xcassets in Resources */,
+				517A792C20B84C8E00DBE8DD /* File.rtf in Resources */,
 				517A790120B84ADB00DBE8DD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
