@@ -20,10 +20,7 @@
 }
 
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    
-    [self gcdDome05];
-}
+
 
 -(void)gcdDemo1{
     
@@ -67,7 +64,8 @@
     });
 }
 
-//------------------------------------串行队列，同步任务
+//------------------------------------串行队列，同步任务-------------------------------------------------
+//-------------------------串行不允许拿多个任务，并行允许--同步没有开启线程，异步开启线程
 /**
  不会开启线程，会顺序执行
  */
@@ -97,7 +95,7 @@
      1、队列名称：
      2、队列属性
      */
-    dispatch_queue_t q = dispatch_queue_create("gcd04", NULL);
+    dispatch_queue_t q = dispatch_queue_create("gcd05", NULL);
     //同步任务
     for (int i = 0; i<10; i++) {
         dispatch_async(q, ^{
@@ -107,7 +105,89 @@
     NSLog(@"come here");//-----在主线程
 }
 
+//------------------------------------并行队列，异步任务-------------------------------------------------
+/**
+ */
+-(void)gcdDome06{
+    
+    /**
+     1、队列名称：
+     2、队列属性
+     */
+    dispatch_queue_t q = dispatch_queue_create("gcd06", DISPATCH_QUEUE_CONCURRENT);
+    //同步任务
+    for (int i = 0; i<9; i++) {
+        dispatch_async(q, ^{
+            NSLog(@"线程==%@ %d",[NSThread currentThread],i);
+        });
+    }
+    
+}
+
+-(void)gcdDome07{
+    
+    /**
+     1、队列名称：
+     2、队列属性
+     */
+    dispatch_queue_t q = dispatch_queue_create("gcd07", DISPATCH_QUEUE_CONCURRENT);
+    //同步任务
+    for (int i = 0; i<9; i++) {
+        dispatch_sync(q, ^{
+            NSLog(@"线程==%@ %d",[NSThread currentThread],i);
+        });
+    }
+    
+}
+//------------------------------------同步任务作用-------------------------------------------------
+//当任务有顺序要求时----依赖关系
+-(void)gcdDome08{
+    //队列
+    dispatch_queue_t q = dispatch_queue_create("gcd08", DISPATCH_QUEUE_CONCURRENT);
+    
+    //block
+    void(^task)(void) = ^() {
+        dispatch_sync(q, ^{
+            NSLog(@"登录");
+        });
+        dispatch_async(q, ^{
+            NSLog(@"支付");
+        });
+        dispatch_async(q, ^{
+            NSLog(@"下载");
+        });
+    };
+    dispatch_async(q, task);
+    
+    
+}
+
+//------------------------------------全局队列-------------------------------------------------
+-(void)gcdDome09{
+    //第一个参数是优先级
+    //第二个参数是为未来使用
+    dispatch_queue_t q = dispatch_get_global_queue(0, 0);
+    for (int i = 0; i<10; i++) {
+        dispatch_async(q, ^{
+            NSLog(@"%@",[NSThread currentThread]);
+        });
+    }
+}
+
+//------------------------------------延时执行-------------------------------------------------
+-(void)gcdDome10{
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"%@",[NSThread currentThread]);
+    });
+    
+    
+}
 
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    [self gcdDome10];
+}
 
 @end
