@@ -183,11 +183,21 @@
     
     
 }
+//------------------------------------一次执行-------------------------------------------------
+//单利模式比较多---只会执行一次，线程安全
+-(void)gcdDome11{
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSLog(@"%@",[NSThread currentThread]);
+    });
+}
+
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
-    [self gcdDome10];
+    [self gcdDome11];
 }
 
 @end
