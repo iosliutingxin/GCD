@@ -189,15 +189,78 @@
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        NSLog(@"%@---令牌==%ld",[NSThread currentThread],onceToken);
+    });
+}
+
+//------------------------------------调度组-------------------------------------------------
+-(void)gcdDome12{
+    
+    //1、队列
+    dispatch_queue_t q = dispatch_get_global_queue(0, 0);
+    
+    //2、调度组
+    dispatch_group_t g = dispatch_group_create();
+    
+    //3、添加任务
+    dispatch_group_async(g, q, ^{
+        NSLog(@"download A ==%@",[NSThread currentThread]);
+    });
+    
+    dispatch_group_async(g, q, ^{
+        [NSThread sleepForTimeInterval:5];
+        NSLog(@"download B ==%@",[NSThread currentThread]);
+    });
+    dispatch_group_async(g, q, ^{
+        NSLog(@"download C ==%@",[NSThread currentThread]);
+    });
+    
+    //4、所有任务执行完毕后，发送通知
+    //用一个调度组，可以监听全局队列的任务，去主队列执行最后任务
+    dispatch_group_notify(g, dispatch_get_main_queue(), ^{
+        NSLog(@"OK == %@",[NSThread currentThread]);
+    });
+    
+}
+
+//------------------------------------主队列-------------------------------------------------
+/**
+主队列----窜行队列
+都是一个个调度
+ 不能再主队列上同步执行
+ */
+//1、死锁
+-(void)gcdDome13{
+    
+    NSLog(@"come here");
+    dispatch_queue_t q = dispatch_get_main_queue();
+    dispatch_sync(q, ^{
         NSLog(@"%@",[NSThread currentThread]);
     });
+    NSLog(@"come there");
+}
+
+//2、不死锁
+-(void)gcdDome14{
+    //把主队列的线程放到一个异步线程中执行就不会死锁
+    void(^task)(void) = ^() {
+        NSLog(@"come here");
+        dispatch_queue_t q = dispatch_get_main_queue();
+        dispatch_sync(q, ^{
+            [NSThread sleepForTimeInterval:5];
+            NSLog(@"%@",[NSThread currentThread]);
+        });
+        NSLog(@"come there");
+    };
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), task);
 }
 
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
-    [self gcdDome11];
+    [self gcdDome14];
 }
 
 @end
